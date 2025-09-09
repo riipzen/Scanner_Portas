@@ -1,12 +1,13 @@
 import socket
 import threading
 from queue import Queue
+import sys
 
 q = Queue()
 
 def escanear_porta(porta): #Criando uma função para escanear as porta automaticamente
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Estabelecendo uma conexão TCP/IP
         s.settimeout(1) #Tempo limite para receber uma respota das portas
         resultado = s.connect_ex((ip_alvo, porta)) #Definindo o IP e a PORTA alvo
         if resultado == 0:
@@ -21,7 +22,7 @@ def worker(): #Adicionando THREADS para agilizar o processo de Scannear portas
         escanear_porta(porta)
         q.task_done()
 
-ip_alvo = "192.168.1.19"
+ip_alvo = sys.argv[1]
 print("Iniciando Varredura de Portas...")
 
 for porta in range (0, 1001): #Range onde podemos Scannear a porta da 0 até 1001.
